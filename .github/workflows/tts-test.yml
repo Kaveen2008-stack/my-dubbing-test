@@ -1,0 +1,20 @@
+name: TTS Test
+on: workflow_dispatch
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - run: pip install edge-tts requests
+      - run: python test_tts.py
+        env:
+          ELEVEN_API_KEY: ${{ secrets.ELEVEN_API_KEY }}
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: tts-results
+          path: output/
