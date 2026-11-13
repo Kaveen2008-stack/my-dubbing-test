@@ -1,6 +1,5 @@
-name: TTS Test
+name: Voice Test
 on: workflow_dispatch
-
 jobs:
   test:
     runs-on: ubuntu-latest
@@ -9,12 +8,10 @@ jobs:
       - uses: actions/setup-python@v5
         with:
           python-version: "3.11"
-      - run: pip install edge-tts requests
-      - run: python test_tts.py
-        env:
-          ELEVEN_API_KEY: ${{ secrets.ELEVEN_API_KEY }}
+      - run: pip install edge-tts scipy transformers torch --extra-index-url https://download.pytorch.org/whl/cpu
+      - run: python test_voice.py
       - uses: actions/upload-artifact@v4
         if: always()
         with:
-          name: tts-results
+          name: voice-results
           path: output/
